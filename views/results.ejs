@@ -1,6 +1,14 @@
 <%= total %>
 
-<% Object.values(bookList).forEach(value => {%>
-   <%= value.title ;%>
+<% let arrbooklist = Object.values(bookList)%>
+<% arrbooklist.forEach(value => {%>
+    <h2><%= value.title ;%> 
+    <% if(value.subtitle){ %>
+        :<%= value.subtitle ;%>
+    <% } %></h2>
+
+    <img src="<%=Object.values(value.imageLinks)%>" alt="">
+    <p><%= value.authors ;%></p>
    <br>
+   
 <% });%>
