@@ -20,6 +20,8 @@ app.get('/', (req, res) => {
 app.post('/asked', async (req, res) => {
     // get user search 
     title = req.body.title;
+    title = title.replace(/\s/g, "+")
+    console.log(title)
 
     // search volume list from google book api
     request.get(`https://www.googleapis.com/books/v1/volumes?q=${title}`, function (err, response, body){
@@ -32,7 +34,7 @@ app.post('/asked', async (req, res) => {
             bookList.push(arrVolumeInfo)
         })
 
-        console.log(bookList)
+        // console.log(bookList)
 
         res.render('results', {bookList: bookList, total: body.totalItems});
     })

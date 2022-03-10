@@ -1,14 +1,40 @@
-<%= total %>
+<%- include ('./partials/header') %>
+
+results <%= total %>
+
 
 <% let arrbooklist = Object.values(bookList)%>
-<% arrbooklist.forEach(value => {%>
-    <h2><%= value.title ;%> 
-    <% if(value.subtitle){ %>
-        :<%= value.subtitle ;%>
-    <% } %></h2>
 
-    <img src="<%=Object.values(value.imageLinks)%>" alt="">
-    <p><%= value.authors ;%></p>
-   <br>
-   
+<div class="container">
+
+<% arrbooklist.forEach(value => {%>
+
+<div class="card m-3 mx-auto" align="center" style="width: 70%;">
+    <!-- book cover -->
+    <img src="<%=Object.values(value.imageLinks)%>"  style="width: 12rem;" class="card-img-top mx-auto" alt="...">
+
+    
+    <div class="card-body">
+        <!-- title/ subtitle -->
+        <h5 class="card-title"> <%= value.title ;%> 
+        <% if(value.subtitle){ %>
+            : <%= value.subtitle ;%>
+        <% } %> 
+        </h5>
+
+        <!-- author -->
+        <h6 class="card-subtitle mb-2 text-muted"> <%= value.authors ;%> </h6>
+
+        <!-- description -->
+        <!-- <% if(value.description){ %>
+            <p class="card-text"> <%= value.description ;%> </p>
+        <% } %>  -->
+        <a href="#"  class="btn btn-primary">Go see book</a>
+    </div>
+  </div>
+
+
 <% });%>
+
+</div>
+<%- include ('./partials/header') %>
