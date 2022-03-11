@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
-const ejs = require('ejs')
+const ejs = require('ejs');
+
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -17,30 +18,29 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.post('/asked', async (req, res) => {
+app.post('/search', (req, res) => {
     // get user search 
     title = req.body.title;
     title = title.replace(/\s/g, "+")
-    console.log(title)
 
-    // search volume list from google book api
-    request.get(`https://www.googleapis.com/books/v1/volumes?q=${title}`, function (err, response, body){
+    // search volume list from google books api
+    request.get(`https://books.googleapis.com/books/v1/volumes?q=${title}&maxResults=10&orderBy=relevance&fields=items(id, volumeInfo(title, subtitle, authors, imageLinks(thumbnail)))`, function (err, response, body){
         body = JSON.parse(body);
-  
         let bookList = []
 
         body.items.forEach(item => {
-            let arrVolumeInfo = item.volumeInfo;
-            bookList.push(arrVolumeInfo)
-        })
+            // send id info inside volumeInfo object
+            item.volumeInfo.id = item.id;
+            // send volumeInfo to array
+            bookList.push(item.volumeInfo)
+        });
 
-        // console.log(bookList)
-
-        res.render('results', {bookList: bookList, total: body.totalItems});
+        res.render('results', {bookList: bookList});
     })
+});
 
-
-
+app.get("/book:id", (req, res) => {
+    let id = req.params.id;
 });
 
 app.listen(3000, () => {
